@@ -14,11 +14,22 @@ export default function CalculadoraROI() {
 
   const calcularCosteServicio = () => {
     const minutosMensuales = datos.llamadasDiarias * datos.diasLaborables * datos.minutosPromedio;
-    const costeMinutos = minutosMensuales * 0.22;
+
+    let costePorMinuto = 0;
     let costePlan = 0;
-    if (datos.plan === "basic") costePlan = 149;
-    else if (datos.plan === "pro") costePlan = 199;
-    else if (datos.plan === "premium") costePlan = 299;
+
+    if (datos.plan === "basic") {
+      costePorMinuto = 0.25;
+      costePlan = 149;
+    } else if (datos.plan === "pro") {
+      costePorMinuto = 0.22;
+      costePlan = 199;
+    } else if (datos.plan === "premium") {
+      costePorMinuto = 0.19;
+      costePlan = 299;
+    }
+
+    const costeMinutos = minutosMensuales * costePorMinuto;
     return costeMinutos + costePlan;
   };
 
@@ -44,7 +55,7 @@ export default function CalculadoraROI() {
   return (
     <div className="container">
       <h1>¿Cuánto gana tu negocio con <span className="accent">codeX</span>?</h1>
-      <p className="center muted">Completa los datos y descubre tu ROI automáticamente.</p>
+      <p className="muted">Completa los datos y descubre tu ROI automáticamente.</p>
 
       <div className="spacer"></div>
 
@@ -87,13 +98,13 @@ export default function CalculadoraROI() {
         <div className="card">
           <div className="content">
             <h2 style={{marginTop:0}}>Resultados</h2>
-            <div className="kpis">
+            <div>
               <p>Clientes perdidos al mes: <strong>{resultados.clientesPerdidos}</strong></p>
-              <p>Dinero perdido solo por llamadas no atendidas: <strong>{resultados.dineroPerdido.toFixed(2)} €</strong></p>
+              <p>Dinero perdido por llamadas no atendidas: <strong>{resultados.dineroPerdido.toFixed(2)} €</strong></p>
               <p>Coste total del servicio codeX: <strong>{resultados.costeServicio.toFixed(2)} €</strong></p>
               <p>Ganancia neta con codeX: <strong>{resultados.gananciaNeta.toFixed(2)} €</strong></p>
               <p>ROI: <strong>{resultados.roi}%</strong></p>
-              <p className="small">* Este cálculo considera solo las llamadas perdidas, sin tener en cuenta chats no respondidos, reservas no gestionadas, pedidos perdidos u horas de trabajo ahorradas en tareas repetitivas.</p>
+              <p className="small">* Solo considera llamadas perdidas. No incluye chats, reservas, pedidos ni horas ahorradas.</p>
             </div>
           </div>
         </div>
@@ -118,10 +129,7 @@ export default function CalculadoraROI() {
       <div className="spacer"></div>
 
       <div className="center">
-        <p className="small">codeX no solo recupera tus llamadas perdidas. También responde chats, automatiza reservas, pedidos y libera tu tiempo para que te concentres en lo importante.</p>
-        <a className="btn" href="https://tedious-portion-249412.framer.app/contacto" target="_blank" rel="noopener noreferrer">
-          Solicita tu demo gratuita
-        </a>
+        <p className="small">codeX no solo recupera tus llamadas perdidas. También responde chats, automatiza reservas y libera tu tiempo.</p>
       </div>
     </div>
   );
